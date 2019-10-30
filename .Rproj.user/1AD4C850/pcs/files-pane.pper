@@ -1,0 +1,9 @@
+{
+    "path" : "~/GitHub/surveySito",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
