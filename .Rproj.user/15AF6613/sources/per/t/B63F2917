@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572445304597.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B63F2917",
+    "lastKnownWriteTime" : 6,
+    "last_content_update" : -2147483648,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1F7A69CD",
+        "caption" : "dati",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=dati&cache_key=1F7A69CD",
+        "displayedObservations" : 217,
+        "environment" : "",
+        "object" : "dati",
+        "preview" : 0,
+        "totalObservations" : 217,
+        "variables" : 8
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
