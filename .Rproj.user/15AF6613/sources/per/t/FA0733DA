@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572533500475.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FA0733DA",
+    "lastKnownWriteTime" : 6,
+    "last_content_update" : -2147483648,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "B2BE9647",
+        "caption" : "raschdat1.long",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=raschdat1.long&cache_key=B2BE9647",
+        "displayedObservations" : "3000",
+        "environment" : "",
+        "object" : "raschdat1.long",
+        "preview" : "0",
+        "totalObservations" : "3000",
+        "variables" : "4"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -1,21 +1,23 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1572448316782.000,
+    "created" : 1572533679642.000,
     "dirty" : false,
     "encoding" : "",
     "folds" : "",
     "hash" : "0",
-    "id" : "962E4E37",
+    "id" : "5B8CAE99",
     "lastKnownWriteTime" : 6,
     "last_content_update" : -2147483648,
     "path" : null,
     "project_path" : null,
     "properties" : {
-        "context" : ".GlobalEnv:::funz"
+        "id" : "1d544ae1ea904807a678ccf13048d1cb",
+        "name" : "res.mlm.l",
+        "title" : "res.mlm.l"
     },
-    "relative_order" : 5,
+    "relative_order" : 7,
     "source_on_save" : false,
     "source_window" : "",
-    "type" : "r_code_browser"
+    "type" : "object_explorer"
 }

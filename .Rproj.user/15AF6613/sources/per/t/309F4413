@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572533274440.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "309F4413",
+    "lastKnownWriteTime" : 6,
+    "last_content_update" : -2147483648,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "DED9414B",
+        "caption" : "raschdat1",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=raschdat1&cache_key=DED9414B",
+        "displayedObservations" : 100,
+        "environment" : "",
+        "object" : "raschdat1",
+        "preview" : 0,
+        "totalObservations" : 100,
+        "variables" : 30
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

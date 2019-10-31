@@ -4,16 +4,20 @@ library(FactoMineR)
 library(factoextra)
 library(DataExplorer)
 library(missMDA)
-library("eRm")
-library("ltm")
-library("difR")
+library(eRm)
+library(ltm)
+library(difR)
+library(janitor)
+library(mirt)
+library(ShinyItemAnalysis)
+library(lme4)
 
 dati <- read_excel("surveysito.xlsx")
-dati<-dati[, -c(1:5)]
+dati<-dati[-2, -c(1:5)]
 
 
 names(dati)<-c("uso","settori","presentazione", "grafica", "descrizione",
-               "chiarezza", "user-friendly", "infoinutili", "wronginfo",
+               "chiarezza", "user-friendly", "infoinutili", "infoerrate",
                "consigli_errori", "comunicazione", "conoscenza_attività", 
                "intervista", "ricezione_info", "cral", "biblioupdate", "strumenti")
 dati<-mutate_all(dati, funs(tolower))
@@ -23,6 +27,9 @@ dati<-dati %>%
 
 dati$comunicazione<-ifelse(dati$comunicazione=="no , va bene così", "si", "no")
 
+
+dati$infoinutili<-ifelse(dati$infoinutili=="no", "si", "no")
+dati$infoerrate<-ifelse(dati$infoerrate=="no", "si", "no")
 dati<- data.frame(lapply(dati, as.factor), stringsAsFactors=FALSE)
 dati<-data.frame(lapply(dati, as.numeric))
 
@@ -33,15 +40,131 @@ funz<-function(x){
 
 dati[,1:8]<-apply(dati[,1:8], 2, funz)
 
-score<-dati %>% 
-  mutate(sc=rowSums(.[1:8]))
+rscore<-dati %>% 
+  mutate(sc=rowSums(.[1:8], na.rm=TRUE)) %>% 
+  dplyr::select(sc) %>% 
+  ggplot(aes(sc))+geom_bar(fill="steelblue3")+labs(x="Soddisfazione", y="frequenza")+
+  scale_x_continuous(breaks = seq(0,8,1))
 
 
 
+cscore<-dati %>%
+  rownames_to_column() %>% 
+  adorn_totals("row")
+cscore<-data.frame(t(cscore[217,2:9]))
+names(cscore)<-"Qualità"
+
+cscore %>% 
+  rownames_to_column(var = "Item") %>% 
+  arrange(Qualità) %>% 
+  mutate(Item = factor(Item, unique(Item))) %>% 
+   ggplot(aes(x=Item, y=Qualità))+
+  geom_bar(stat="identity", fill="steelblue3")+labs(x="")+
+  coord_flip()+theme(axis.text=element_text(size=12))
 
 
 
 ##############RASCH LOGISTIC REGRESSION##########################
+raschdat1 <- as.data.frame(raschdat1)
+
+raschdat1.long <- raschdat1
+raschdat1.long$tot <- rowSums(raschdat1.long) # Create total score
+
+
+
+
+raschdat1.long$ID <- 1:nrow(raschdat1.long) # create person ID
+raschdat1.long <- tidyr::gather(raschdat1.long, item, value, I1:I30) # Wide to long
+# Make item a factor
+raschdat1.long$item <- factor(
+  raschdat1.long$item)#, levels = paste("V", 1:30), ordered = TRUE)
+
+
+
+res.mlm.l <- glmer(
+  value ~ item + (1 | ID), raschdat1.long, family = binomial,
+  contrasts = list(item = rbind(rep(-1, 29), diag(29))))
+
+
+res.mlm.l <- glmer(
+  value ~ item + (1 | ID), raschdat1.long, family = binomial,
+  contrasts = list(item = rbind(rep(-1, 29), diag(29))),
+  start = list(fixef = fixef(res.mlm.l), theta = getME(res.mlm.l, "theta")))
+
+
+
+item.diff <- -1 * coef(summary(res.mlm.l))[, 1] # Regression coefficients * -1
+item.diff[1] <- -1 * sum(item.diff[2:30])
+
+
+item.diff <- data.frame(
+  item.diff = as.numeric(item.diff), item = paste("V", 1:30))
+
+
+
+
+
+
+
+###item parameters####
+res.rasch <- RM(dati)
+
+
+
+
+
+
+res <- PCM(dati)
+plotINFO(res)
+betas <- coef(res.rasch)     # Item difficulty parameters
+round(sort(betas), 2)
+
+plotICC(res.rasch, item.subset = 1:8)
+
+
+plotPImap(res.rasch, cex.gen = .55, sorted = TRUE)
+
+####person parameters####
+pers.rasch <- person.parameter(res.rasch)
+
+
+lrres.rasch <- LRtest(res.rasch, splitcr = "mean")
+plotGOF(lrres.rasch, beta.subset = c(14, 5, 18, 7, 1), tlab = "item",
+        conf = list(ia = FALSE, col = "blue", lty = "dotted"))
+
+
+
+
+# loading 100-item medical admission test data sets
+data(dataMedical)
+# binary data set
+dataBin <- dataMedical[, 1:100]
+
+# fit Rasch model with mirt package
+fit <- mirt(dati, model = 1, itemtype = "Rasch")
+# factor scores
+theta <- as.vector(fscores(fit))
+# difficulty estimates
+b <- coef(fit, simplify = T)$items[, "d"]
+
+ggWrightMap(theta, b)
+
+
+ggWrightMap(theta, b, item.names = names(dati))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
